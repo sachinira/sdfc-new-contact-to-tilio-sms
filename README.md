@@ -1,11 +1,37 @@
 # Template: Salesforce new Contact to Twilio SMS
+When a new `Contact` is added in Salesforce, send an SMS to a specific number using Twilio.<br>
 
-## Intergration use case
-At the execution of this template, each time a contact is created in salesforce, Twilio SMS containing all 
-the defined fields in contact SObject will be sent. 
+It is important to be updated with a particular software development tool that you or your team are using in the 
+day-to-day development process and get notified immediately on a new release of it. There can be a Slack channel 
+followed by a development community or a team that uses that specific tool. This template makes it easier *** each time 
+a contact is created in salesforce, Twilio SMS containing all 
+the defined fields in contact SObject will be sent.
+
+This template can be used to send a message to a selected Slack channel when a new release is done in a specific 
+repository in GitHub.
+
+## Use this template to
+- Send a Channel message to a Slack channel which is created for developers who use a Git repository.
+- Send a Channel message to a Slack channel which is followed by the contributors of a Git repository.
+
+## What you need
+- A Github Account
+- A Slack workspace with admin privileges
+
+## How to set up
+- Import the template.
+- Allow access to the Github account.
+- Select the repository.
+- Allow access to Slack account.
+- Select the channel.
+- Set up the template. 
+
+# Developer Guide
+<p align="center">
+<img src="./docs/images/template_flow.png?raw=true" alt="Github-Slack Integration template overview"/>
+</p>
 
 ## Supported versions
-
 <table>
   <tr>
    <td>Ballerina Language Version
@@ -41,7 +67,6 @@ the defined fields in contact SObject will be sent.
 
 
 ## Configuration
-
 ### Setup Salesforce configurations
 1. Create a Salesforce account and create a connected app by visiting [Salesforce](https://www.salesforce.com). 
 2. Salesforce username, password will be needed for initializing the listener. 
@@ -72,24 +97,19 @@ Create a [Twilio developer account](https://www.twilio.com/).
 4. Give a mobile number where the SMS should be send as the value of the `to_mobile` variable in the `Config.toml`.
 5. Once you obtained all configurations, Replace "" in the `Config.toml` file with your data.
 
-### Config.toml 
-
-#### ballerinax/sfdc related configurations 
-
-sf_username = ""  
-sf_password = ""  
-sf_push_topic = ""  
-
-
-#### ballerinax/twilio related configurations  
-
-account_sid = ""  
-auth_token = ""  
-from_mobile = ""  
-to_mobile = ""  
+## Config.toml 
+```
+[<ORG_NAME>.sdfc_contact_to_twilio]
+sf_username = "<SALESFORCE_USERNAME>"  
+sf_password = "<SALESFORCE_PASSWORD>"  
+sf_push_topic = "<SALESFORCE_PUSHTOPIC>"  
+account_sid = "<TWILIO_SID>"  
+auth_token = "<TWILIO_AUTH_TOKEN>"  
+from_mobile = "<TWILIO_MOBILE_NUMBER>"  
+to_mobile = "<TO_MOBILE_NUMBER>"  
+```
 
 ## Running the template
-
 1. First you need to build the integration template and create the executable binary. Run the following command from the root directory of the integration template. 
 `$ bal build`. 
 
