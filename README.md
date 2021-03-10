@@ -1,29 +1,26 @@
 # Template: Salesforce new Contact to Twilio SMS
-When a new `Contact` is added in Salesforce, send an SMS to a specific number using Twilio.<br>
+When a new `Contact` is added in Salesforce, send a Twilio SMS to a specific number.<br>
 
-It is important to be updated with a particular software development tool that you or your team are using in the 
-day-to-day development process and get notified immediately on a new release of it. There can be a Slack channel 
-followed by a development community or a team that uses that specific tool. This template makes it easier *** each time 
-a contact is created in salesforce, Twilio SMS containing all 
-the defined fields in contact SObject will be sent.
+A customer can use Twilio to send internal notifications to a specific person based on the new contact information in Salesforce. There might be a specific person who needs to be alerted once a new contact is added in Salesforce. Once a new contact is created in Salesforce, a Twilio SMS containing all the defined fields in contact SObject will be sent. Any time you create a new contact in Salesforce, an SMS message will automatically send to the specific person via Twilio.
 
-This template can be used to send a message to a selected Slack channel when a new release is done in a specific 
-repository in GitHub.
+This template is used for the scenario that once a contact is created in Salesforce, Twilio SMS containing all the 
+defined fields in contact SObject will be sent.
 
 ## Use this template to
-- Send a Channel message to a Slack channel which is created for developers who use a Git repository.
-- Send a Channel message to a Slack channel which is followed by the contributors of a Git repository.
+- Send Twilio SMS to a specific mobile number when a new Contact is created in Salesforce.
 
 ## What you need
-- A Github Account
-- A Slack workspace with admin privileges
+- A Salesforce Account
+- A Twilio Account 
 
 ## How to set up
 - Import the template.
-- Allow access to the Github account.
-- Select the repository.
-- Allow access to Slack account.
-- Select the channel.
+- Allow access to Salesforce account.
+- Provide Salesforce push topic.
+- Allow access to the Twilio account.
+- Provide the Twilio Account SID and Auth Token.
+- Provide the number we want to send SMS from.
+- Provide the number we want to send the SMS to.
 - Set up the template. 
 
 # Developer Guide
@@ -59,22 +56,19 @@ repository in GitHub.
   </tr>
 </table>
 
-
 ## Pre-requisites
 * Download and install [Ballerina](https://ballerinalang.org/downloads/).
-* Twilio account with sms capable phone number
-* Ballerina connectors for Salesforce and Twilio which will be automatically downloaded when building the application for the first time
+* A Salesforce account with a push topic created.
+* Twilio account with sms capable phone number.
+* Ballerina connectors for Salesforce and Twilio which will be automatically downloaded when building the application for the first time.
 
-
-## Configuration
-### Setup Salesforce configurations
+## Account Configuration
+### Configuration steps for Salesforce account
 1. Create a Salesforce account and create a connected app by visiting [Salesforce](https://www.salesforce.com). 
 2. Salesforce username, password will be needed for initializing the listener. 
 3. Once you obtained all configurations, Replace "" in the `Config.toml` file with your data.
-
 4. Create push topic in Salesforce developer console
   The Salesforce trigger requires topics to be created for each event. We need to configure topic to listen on Custom Object entity.
-
   * From the Salesforce UI, select developer console. Go to debug > Open Execute Anonymous Window. 
   * Paste following apex code to create topic with <NewContact> and execute. You can change the `pushTopic.Query` adding the fields you want to receive when the event triggered. Find the supported SOQL queries for PushTopic [here](https://developer.salesforce.com/docs/atlas.en-us.api_streaming.meta/api_streaming/supported_soql.htm).
     ```apex
@@ -88,14 +82,13 @@ repository in GitHub.
     ```
   * Once the creation is done, specify the topic name in your `Config.toml` file as `sf_push_topic`.
 
-### Setup Twilio configurations
-Create a [Twilio developer account](https://www.twilio.com/). 
-
-1. Create a Twilio project with SMS capabilities.
-2. Obtain the Account SID and Auth Token from the project dashboard.
-3. Obtain the phone number from the project dashboard and set as the value of the `from_mobile` variable in the `Config.toml`.
-4. Give a mobile number where the SMS should be send as the value of the `to_mobile` variable in the `Config.toml`.
-5. Once you obtained all configurations, Replace "" in the `Config.toml` file with your data.
+### Configuration steps for Twilio account
+1. Create a [Twilio developer account](https://www.twilio.com/). 
+2. Create a Twilio project with SMS capabilities.
+3. Obtain the Account SID and Auth Token from the project dashboard.
+4. Obtain the phone number from the project dashboard and set as the value of the `from_mobile` variable in the `Config.toml`.
+5. Give a mobile number where the SMS should be send as the value of the `to_mobile` variable in the `Config.toml`.
+6. Once you obtained all configurations, Replace relevant places in the `Config.toml` file with your data.
 
 ## Config.toml 
 ```
@@ -127,7 +120,6 @@ Successful listener startup will print following in the console.
 {clientId=1mc1owacqlmod21gwe8arhpxaxxm, advice={reconnect=retry, interval=0, timeout=110000}, channel=/meta/connect, id=2, successful=true}
 <<<<
 ```
-
 3. Now you can create a new contact in Salesforce Account and observe that integration template runtime has received the event notification for the created contact.
 
 4. You can check the SMS received to verify that information about the contact creation is received. 

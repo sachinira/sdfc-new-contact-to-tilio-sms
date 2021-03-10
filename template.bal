@@ -32,8 +32,8 @@ listener sfdc:Listener sfdcEventListener = new (listenerConfig);
 }
 service on sfdcEventListener {
     remote function onEvent(json contact) returns error?{
-        io:StringReader sr = new (contact.toJsonString());
-        json contactInfo = check sr.readJson();
+        io:StringReader stringReader = new (contact.toJsonString());
+        json contactInfo = check stringReader.readJson();
         json eventType = check contactInfo.event.'type;        
         if(TYPE_CREATED.equalsIgnoreCaseAscii(eventType.toString())) {
             json contactId = check contactInfo.sobject.Id;
