@@ -58,15 +58,15 @@ defined fields in contact SObject will be sent.
 
 ## Pre-requisites
 * Download and install [Ballerina](https://ballerinalang.org/downloads/).
-* A Salesforce account with a push topic created.
-* Twilio account with sms capable phone number.
+* A Salesforce account.
+* Twilio account with SMS capable phone number.
 * Ballerina connectors for Salesforce and Twilio which will be automatically downloaded when building the application for the first time.
 
 ## Account Configuration
 ### Configuration steps for Salesforce account
 1. Create a Salesforce account and create a connected app by visiting [Salesforce](https://www.salesforce.com). 
 2. Salesforce username, password will be needed for initializing the listener. 
-3. Once you obtained all configurations, Replace "" in the `Config.toml` file with your data.
+3. Once you obtained all configurations, Replace relevant places in the `Config.toml` file with your data.
 4. Create push topic in Salesforce developer console
   The Salesforce trigger requires topics to be created for each event. We need to configure topic to listen on Custom Object entity.
   * From the Salesforce UI, select developer console. Go to debug > Open Execute Anonymous Window. 
@@ -84,11 +84,10 @@ defined fields in contact SObject will be sent.
 
 ### Configuration steps for Twilio account
 1. Create a [Twilio developer account](https://www.twilio.com/). 
-2. Create a Twilio project with SMS capabilities.
-3. Obtain the Account SID and Auth Token from the project dashboard.
-4. Obtain the phone number from the project dashboard and set as the value of the `from_mobile` variable in the `Config.toml`.
-5. Give a mobile number where the SMS should be send as the value of the `to_mobile` variable in the `Config.toml`.
-6. Once you obtained all configurations, Replace relevant places in the `Config.toml` file with your data.
+2. Obtain the Account SID and Auth Token from the project dashboard.
+3. Obtain the phone number from the project dashboard and set as the value of the `from_mobile` variable in the `Config.toml`.
+4. Give a mobile number where the SMS should be send as the value of the `to_mobile` variable in the `Config.toml`.
+5. Once you obtained all configurations, Replace relevant places in the `Config.toml` file with your data.
 
 ## Config.toml 
 ```
@@ -96,10 +95,10 @@ defined fields in contact SObject will be sent.
 sf_username = "<SALESFORCE_USERNAME>"  
 sf_password = "<SALESFORCE_PASSWORD>"  
 sf_push_topic = "<SALESFORCE_PUSHTOPIC>"  
-account_sid = "<TWILIO_SID>"  
-auth_token = "<TWILIO_AUTH_TOKEN>"  
-from_mobile = "<TWILIO_MOBILE_NUMBER>"  
-to_mobile = "<TO_MOBILE_NUMBER>"  
+tw_account_sid = "<TWILIO_SID>"  
+tw_auth_token = "<TWILIO_AUTH_TOKEN>"  
+tw_from_mobile = "<TWILIO_MOBILE_NUMBER>"  
+tw_to_mobile = "<TO_MOBILE_NUMBER>"  
 ```
 
 ## Running the template

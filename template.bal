@@ -3,16 +3,15 @@ import ballerinax/sfdc;
 import ballerinax/twilio;
 
 // Twilio configuration parameters
-configurable string account_sid = ?;
-configurable string auth_token = ?;
-configurable string from_mobile = ?;
-configurable string to_mobile = ?;
+configurable string tw_account_sid = ?;
+configurable string tw_auth_token = ?;
+configurable string tw_from_mobile = ?;
+configurable string tw_to_mobile = ?;
 
 twilio:TwilioConfiguration twilioConfig = {
-    accountSId: account_sid,
-    authToken: auth_token
+    accountSId: tw_account_sid,
+    authToken: tw_auth_token
 };
-
 twilio:Client twilioClient = new(twilioConfig);
 
 // Salesforce configuration parameters
@@ -24,7 +23,6 @@ sfdc:ListenerConfiguration listenerConfig = {
     username: sf_username,
     password: sf_password
 };
-
 listener sfdc:Listener sfdcEventListener = new (listenerConfig);
 
 @sfdc:ServiceConfig {
@@ -51,5 +49,5 @@ function sendMessageWithContactCreation(json contact) returns error? {
             message = message + 'key + " : " + value.toString() + "\n";
         }
     }
-    _ = check twilioClient->sendSms(from_mobile, to_mobile, message);
+    _ = check twilioClient->sendSms(tw_from_mobile, tw_to_mobile, message);
 }
