@@ -2,34 +2,24 @@ import ballerina/io;
 import ballerinax/sfdc;
 import ballerinax/twilio;
 
-// Twilio configuration parameters
-configurable string tw_account_sid = ?;
-configurable string tw_auth_token = ?;
-configurable string tw_from_mobile = ?;
-configurable string tw_to_mobile = ?;
+configurable string & readonly sfUserName = ?;
+configurable string & readonly sfPassword = ?;
+configurable string & readonly sfPushTopic = ?;
+configurable sfdc:ListenerConfiguration & readonly listenerConfig = ?;
+configurable string & readonly twAccountSid = ?;
+configurable string & readonly twAuthToken = ?;
+configurable string & readonly twFromMobile = ?;
+configurable string & readonly twToMobile = ?;
+configurable twilio:TwilioConfiguration & readonly twilioConfig = ?;
 
-twilio:TwilioConfiguration twilioConfig = {
-    accountSId: tw_account_sid,
-    authToken: tw_auth_token
-};
-twilio:Client twilioClient = new(twilioConfig);
-
-// Salesforce configuration parameters
-configurable string sf_username = ?;
-configurable string sf_password = ?;
-configurable string sf_push_topic = ?;
-
-sfdc:ListenerConfiguration listenerConfig = {
-    username: sf_username,
-    password: sf_password
-};
 listener sfdc:Listener sfdcEventListener = new (listenerConfig);
+twilio:Client twilioClient = new (twilioConfig);
 
 @sfdc:ServiceConfig {
-    topic: TOPIC_PREFIX + sf_push_topic
+    topic: TOPIC_PREFIX + sfPushTopic
 }
 service on sfdcEventListener {
-    remote function onEvent(json contact) returns error?{
+    remote function onEvent(json contact) returns error? {
         io:StringReader stringReader = new (contact.toJsonString());
         json contactInfo = check stringReader.readJson();
         json eventType = check contactInfo.event.'type;        
@@ -49,5 +39,5 @@ function sendMessageWithContactCreation(json contact) returns error? {
             message = message + 'key + " : " + value.toString() + "\n";
         }
     }
-    _ = check twilioClient->sendSms(tw_from_mobile, tw_to_mobile, message);
+    _ = check twilioClient->sendSms(twFromMobile, twToMobile, message);
 }
